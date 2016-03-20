@@ -1,0 +1,8 @@
+<component name="ArtifactManager">
+  <artifact type="war" build-on-make="true" name="SpringBlog:war">
+    <output-path>$PROJECT_DIR$/target</output-path>
+    <root id="archive" name="SpringBlog.war">
+      <element id="artifact" artifact-name="SpringBlog:war exploded" />
+    </root>
+  </artifact>
+</component>

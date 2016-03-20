@@ -1,0 +1,44 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:tx="http://www.springframework.org/schema/tx"
+       xsi:schemaLocation="
+       http://www.springframework.org/schema/beans
+       http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+       http://www.springframework.org/schema/tx
+       http://www.springframework.org/schema/tx/spring-tx-3.0.xsd">
+
+
+    <!--Hibernate Session Factory for annotation configuration-->
+    <bean id="sessionFactory"
+          class="org.springframework.orm.hibernate3.annotation.AnnotationSessionFactoryBean">
+        <property name="dataSource" ref="dataSource"/>
+        <property name="packagesToScan"><!--also can be initialized as
+        <property name="packagesToScan" value="package"/>-->
+            <list>
+                <value>com.springapp.entities</value>
+            </list>
+        </property>
+        <property name="hibernateProperties">
+            <props>
+                <prop key="dialect">org.hibernate.dialect.MySQL5Dialect</prop>
+            </props>
+        </property>
+    </bean>
+    <!--Hibernate spitter dao bean-->
+    <bean id="hibernateSpitterDao"
+          class="com.springapp.dao.HibernateSpitterDao">
+        <property name="sessionFactory" ref="sessionFactory"/>
+    </bean>
+    <!--Hibernate spittle dao bean-->
+    <bean id="hibernateMessageDao"
+          class="com.springapp.dao.HibernateSpittleDao">
+        <property name="sessionFactory" ref="sessionFactory"/>
+    </bean>
+    <!--Hibernate transaction manager-->
+    <bean id="transactionManager"
+          class="org.springframework.orm.hibernate3.HibernateTransactionManager">
+        <property name="sessionFactory" ref="sessionFactory"/>
+    </bean>
+    <!--Transaction aop settings-->
+    <tx:annotation-driven transaction-manager="transactionManager"/>
+</beans>
